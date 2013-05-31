@@ -11,27 +11,40 @@ import java.util.logging.Logger;
  */
 public class Main {
 
+	/**
+	 * Main program mechanism
+	 *
+	 * @param args
+	 */
 	public static void main(String[] args) {
 		String file = args[0];
 		try {
-			Calc.Numbers numbers = readData(file);
-			Calc calc = new Calc(numbers);
+			Calc.Permutation permutation = readData(file);
+			Calc calc = new Calc(permutation);
 			System.out.println(calc.index());
 		} catch (FileNotFoundException ex) {
 			Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
 
-	private static Calc.Numbers readData(String filename) throws FileNotFoundException {
+	/**
+	 * Reading permuted numbers from file.
+	 *
+	 * @param filename Name of the file from which numbers have to be read.
+	 * @return
+	 * @throws FileNotFoundException
+	 */
+	private static Calc.Permutation readData(String filename)
+					throws FileNotFoundException {
 
 		String regexp = "\\D+";
-		Calc.Numbers elements = new Calc.Numbers();
+		Calc.Permutation permutation = new Calc.Permutation();
 		File file = new File(filename);
 		Scanner sc = new Scanner(file).useDelimiter(regexp);
 		while (sc.hasNext()) {
 			int number = sc.nextInt();
-			elements.add(number);
+			permutation.add(number);
 		}
-		return elements;
+		return permutation;
 	}
 }

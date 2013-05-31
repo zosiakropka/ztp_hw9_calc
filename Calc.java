@@ -7,45 +7,72 @@ import java.util.ArrayList;
  */
 public class Calc {
 
-	Numbers numbers = null;
+	/**
+	 * Permutation to be indexed
+	 */
+	Permutation permutation = null;
 
-	public Calc(Numbers numbers) {
-		this.numbers = numbers;
+	/**
+	 * Class constructor
+	 * 
+	 * @param permutation Permutation to be indexed 
+	 */
+	public Calc(Permutation permutation) {
+		this.permutation = permutation;
 	}
 
+	/**
+	 * Lexical index of the given permutation.
+	 * 
+	 * @return 
+	 */
 	public int index() {
 		int index = 1;
-		for (int i = 1; i < numbers.N(); i++) {
+		for (int i = 1; i < permutation.size(); i++) {
 			int order = 0;
 			for (int j = 0; j < i; j++) {
-				if (numbers.get(i) > numbers.get(j)) {
+				if (permutation.getFromEnd(i) > permutation.getFromEnd(j)) {
 					order++;
 				}
 			}
-			index += order * permutationsCount(i);
+			index += order * factorial(i);
 		}
 		return index;
 	}
 
-	private static int permutationsCount(int N) {
+	/**
+	 * Factorial method to calculate number of permutations
+	 * available for set with given size.
+	 * 
+	 * @param n Factorial function's parameter == size of the set.
+	 * @return 
+	 */
+	private static int factorial(int n) {
 		int factorial = 1;
-		for (int i = 1; i <= N; i++) {
+		for (int i = 1; i <= n; i++) {
 			factorial *= i;
 		}
 		return factorial;
 	}
 
-	public static class Numbers extends ArrayList<Integer> {
+	/**
+	 * Class to keep permutation.
+	 */
+	public static class Permutation extends ArrayList<Integer> {
 
+		/**
+		 * Version UID for serialization.
+		 */
 		static final long serialVersionUID = 1;
 
-		public int N() {
-			return size();
-		}
-
-		@Override
-		public Integer get(int n) {
-			return super.get(size() - 1 - n);
+		/**
+		 * Method to get number with specific index, counting from the end.
+		 * 
+		 * @param n Index to get, counting from the end.
+		 * @return 
+		 */
+		Integer getFromEnd(int n) {
+			return get(size() - 1 - n);
 		}
 	}
 }
